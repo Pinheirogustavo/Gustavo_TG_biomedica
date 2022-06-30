@@ -1,0 +1,3 @@
+fonte desenhada apenas para fornecer diversas saídas equivalentes ao sinal vindo de um transformador externo.
+LM7805 implementado para uma saída de 5V para alimentar placas de STM32 e arduino
+Há uma saída não simétrica de +V,GND que serve para alimentar o gerador de funções XR2206
