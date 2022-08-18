@@ -1,0 +1,49 @@
+*Pick And Place List
+*Company=
+*Author=
+*eMail=
+*
+*Project=Gerador_AD9833_v2
+*Date=09:31:59
+*CreatedBy=Fritzing 0.9.3b.04.19.5c895d327c44a3114e5fcc9d8260daf0cbb52806
+*
+*
+*Coordinates in mm, always center of component
+*Origin 0/0=Lower left corner of PCB
+*Rotation in degree (0-360, math. pos.)
+*
+*No;Value;Package;X;Y;Rotation;Side;Name
+1;;;25.3508;-14.7179;0;Bottom;Jumper1
+2;;THT;55.8968;-7.11794;0;Bottom;3.3v 
+3;;;25.3508;-12.1779;0;Bottom;Jumper2
+4;;;2.63593;-2.09495;0;Bottom;TXT2
+5;;;22.8768;-53.4729;0;Bottom;Jumper4
+6;;;25.3508;-53.4529;0;Bottom;Jumper6
+7;;;70.2651;-21.1083;0;Bottom;TXT2
+8;680k;THT;6.36685;-19.8179;90;Bottom;R1
+9;;THT;38.1168;-59.1879;180;Bottom;1=gain_out 2=Seg2_in 
+10;;THT;31.7668;-19.8179;180;Bottom;1=Vcc 2=DGND 3=SDATA 4=SCLK 5=FSYNC 6=AGND 7=OUT 
+11;1k;THT;3.82685;-28.7079;90;Bottom;R3
+12;;;49.3716;-64.0315;0;Bottom;TXT1
+13;;THT;55.8968;-35.0579;0;Bottom;GND, 5V
+14;;THT;33.0368;-5.84794;180;Bottom;1=SPI_SCK 2=SPI_MISO 3=SPI_MOSI 4=SPI_SS
+15;100nF;100 mil [THT, multilayer];8.90685;-23.6327;90;Bottom;C1
+16;;;37.9848;-47.7179;0;Bottom;Jumper8
+17;;THT;55.8968;-23.6279;0;Bottom;1=I2C_CLK 2=I2C_DATA
+18;;THT;12.7168;-31.2479;0;Bottom;1=OUT_circuito 2=gnd
+19;;;49.5441;-57.9795;0;Bottom;TXT1
+20;;DIP (Dual Inline) [THT];21.6068;-36.3279;0;Bottom;IC1
+21;;THT;16.5268;-3.30794;0;Bottom;GND, 5V
+22;;DIP (Dual Inline) [THT];16.5268;-54.1079;-90;Bottom;IC2
+23;;3386u;6.35186;-40.138;-90;Bottom;trimpot
+24;;THT;24.1468;-59.1879;-90;Bottom;1=-V 2=+V
+25;;;26.6868;-61.7279;0;Bottom;Jumper9
+26;;THT;12.7168;-23.6279;0;Bottom;1=Sin 2=PA_in
+27;;;49.5319;-61.6886;0;Bottom;TXT1
+28;;THT;35.5768;-54.1079;180;Bottom;1=gnd 2=saida_modulo  3=saida_filtro_PA 4=saida_seguidor 5=saida_ganho 6=saida_seguidor2_OUTCircuito
+29;;THT;15.2568;-41.4079;180;Bottom;1=Seg1_out 2=Gain_in
+30;;;69.9436;-35.3421;0;Bottom;TXT2
+31;;;26.0518;-42.6779;0;Bottom;Jumper5
+32;;;44.4668;-22.3494;0;Bottom;arduino nano
+33;;THT;15.2568;-31.2479;180;Bottom;1=PA_out 2=Seg1_in
+34;;THT;33.0368;-38.8679;180;Bottom;1=UART_IN 2=UART_OUT
