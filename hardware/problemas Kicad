@@ -9,14 +9,16 @@
 
 #A visualização 3D não carregue os componentes
 	- Verifique se a pasta "packages3d" está presente em: /usr/share/kicad/modules/packages3d
+	
 	    -caso esteja
 	      abra o "Editor de Layout esquemático" "Eeschema" na barra superior do Kicad (é necessário ter um projeto aberto)
 	      clique em "editor de footprint" "CvPcb to associate components and footprints" na barra superior
 	      clique em "preferências" --> "Administrar Bibliotecas de footprint..." --> "Bibliotecas Específicas do Projeto"
-	      em "Substituições de Locais de Arquivos", na linha "${KISYS3DMOD}", verifique se o valor corresponde ao caminho: /usr/share/kicad/modules/packages3d/
+	      em "Substituições de Locais de Arquivos", na linha "${KISYS3DMOD}", verifique se o valor corresponde ao caminho: 
+	      /usr/share/kicad/modules/packages3d/
 	      corrija o caminho se necessário.
 	      
-		-caso não esteja, baixe: https://gitlab.com/kicad/libraries/kicad-packages3D
+	    -caso não esteja, baixe: https://gitlab.com/kicad/libraries/kicad-packages3D
 			renomeie para "packages3d"
 			no terminal,instale o nautilus admin digitando "sudo apt-get install nautilus-admin"
 			copie a pasta baixada e renomeada como "packages3d" 
