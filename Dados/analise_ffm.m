@@ -87,7 +87,7 @@ for idx=1:1:length(balanca); %numero de voluntarios
   else ffm(l+8,1) = NaN;end
 
   if s==1
-  ffm(l+9,1) = ( (0.49 + 0.5*(Ht^1.48/Zb^55)*(1/1.21) + 0.42*w) /w)*100;                          #58
+  ffm(l+9,1) = ( (0.49 + 0.5*(Ht^1.48/Zb^0.55)*(1/1.21) + 0.42*w) /w)*100;                          #58
   else ffm(l+9,1) = NaN;end
 
   if a>29 && a<50 && s==1
