@@ -10,7 +10,6 @@ XXXXXXXXX
 
 #pre-defifinicoes do octave
 clear all; more off;clc; close all; %limpa o ambiente de trabalho
-#clearvars -except A ##### apaga todas as variaveis, menos a tabela A
 pkg load control; pkg load signal; pkg load io; pkg load statistics; %carrega pacotes
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Dados %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -37,93 +36,92 @@ Equipamento_mulheres = [62.5	67.1	65.8	65.9	65.5	78.8	70.6	72.1	68.3	60.9;
 # linha 3: eq 6
 # linha 4: eq 9
 
-%%%%%%%%%%%% analise outliers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% analise outliers %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ######homens
-figure(1);
-x = size(HBF,1)-1;
-y = size(Equipamento_homens,1);
+figure(1); #figura 1 - boxplot equacoes homens
+x = size(HBF,1)-1; #numero de linhas do vetor HBF
+y = size(Equipamento_homens,1); #numero de linhas do vetor Equipamento_homens
 
 temp = [1,5,14];
 for idx = 1:x+y-1
-subplot(1,x+y,1)
-boxplot(HBF(1,:))
-title('HBF-514')
-ylabel('FFM(%)')
-axis([0.5 1.5])
+    subplot(1,x+y,1)
+    boxplot(HBF(1,:)) #boxplot dos elementos de HBF
+    title('HBF-514')
+    ylabel('FFM(%)')
+    axis([0.5 1.5]) #ajuste de escala para centralizar a caixa no grafico
 
-subplot(1,x+y,1+idx)
-boxplot(Equipamento_homens(idx,:))
-title(['Eq ',num2str(temp(idx))])
+    subplot(1,x+y,1+idx)
+    boxplot(Equipamento_homens(idx,:))  #boxplot dos elementos de Equipamento_homens
+    title(['Eq ',num2str(temp(idx))])
 
-axis([0.5 1.5])
+    axis([0.5 1.5])
 end
 saveas(gcf,'boxplot_FFM_homens.png')
 
 ######mulheres
-figure(2);
-x = size(HBF,1)-1;
+figure(2); #figura 2 - boxplot equacoes mulheres
+x = size(HBF,1)-1; #
 y = size(Equipamento_mulheres,1);
 
 temp = [1,5,6,9];
 for idx = 1:x+y-1
-subplot(1,x+y,1)
-boxplot(HBF(2,:))
-title('HBF-514')
-ylabel('FFM(%)')
-axis([0.5 1.5])
+    subplot(1,x+y,1)
+    boxplot(HBF(2,:))
+    title('HBF-514')
+    ylabel('FFM(%)')
+    axis([0.5 1.5])
 
-subplot(1,x+y,1+idx)
-boxplot(Equipamento_mulheres(idx,:))
-title(['Eq ',num2str(temp(idx))])
+    subplot(1,x+y,1+idx)
+    boxplot(Equipamento_mulheres(idx,:))
+    title(['Eq ',num2str(temp(idx))])
 
-axis([0.5 1.5])
+    axis([0.5 1.5])
 end
 saveas(gcf,'boxplot_FFM_mulheres.png')
 
-%%%%%%%%%%%%%% analise de correlacao
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% analise de correlacao %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ################# homens ##############
 
 x = size(HBF,1)-1;
 y = size(Equipamento_homens,1);
 
-figure(3)
+figure(3) #figura 3 - grafico dispersao e reta de regressao equacoes homens
 temp = [1,5,14]; #numeros das equaçoes
 
 for idx=1:y
- p = polyfit( HBF(1,:) , Equipamento_homens(idx,:) , 1 ); #devolve os coeficientes do polinomio de 1 grau
+     p = polyfit( HBF(1,:) , Equipamento_homens(idx,:) , 1 ); #devolve os coeficientes do polinomio de 1 grau
 
-[R,P] = corrcoef (HBF(1,:) , Equipamento_homens(idx,:)); #coeficiente de pearson e pvalor
+    [R,P] = corrcoef (HBF(1,:) , Equipamento_homens(idx,:)); #coeficiente de pearson e pvalor
 
-printf(['R2 e p-valor Equação  ',num2str(temp(idx))])
-printf('\n')
-R2= R(2)^2
-p_valor = P(2)
+    printf(['R2 e p-valor Equação  ',num2str(temp(idx))])
+    printf('\n')
+    R2= R(2)^2
+    p_valor = P(2)
 
- xx = HBF(1,:); #vetor de x, dados dos homens
- yy = Equipamento_homens(idx,:); #vetor de y
- yyy = polyval(p,xx); #vetor de y reta
+     xx = HBF(1,:); #vetor de x, dados dos homens
+     yy = Equipamento_homens(idx,:); #vetor de y
+     yyy = polyval(p,xx); #vetor de y reta
 
- subplot(1,y,idx)
- plot( xx , yy , 'bo' ,'linewidth', 1.5)
- hold on;
- plot(xx,yyy, 'r', 'linewidth', 2)
+     subplot(1,y,idx)
+     plot( xx , yy , 'bo' ,'linewidth', 1.5)
+     hold on;
+     plot(xx,yyy, 'r', 'linewidth', 2)
 
- equacao = sprintf('y =%.2f x + %.2f',p(1),p(2));
- text(65,80,equacao) #posição do polinomio no gráfico
- R2 = sprintf('R² = %.2f',R2);
- text(66,79,R2) #posição do polinomio no gráfico
+     equacao = sprintf('y =%.2f x + %.2f',p(1),p(2));
+     text(65,80,equacao) #posição do polinomio no gráfico
+     R2 = sprintf('R² = %.2f',R2);
+     text(66,79,R2) #posição do polinomio no gráfico
 
- grid on
- title(['Relação entre HBF-514 e Equação  ',num2str(temp(idx))]);
- ylabel('FFM(%) - Equipamento desenvolvido');
- xlabel('FFM(%) - HBF-514');
- legend(' ponto experimental','curva ajustada','Location','southeast');
-
-
- hold off
+     grid on
+     title(['Relação entre HBF-514 e Equação  ',num2str(temp(idx))]);
+     ylabel('FFM(%) - Equipamento desenvolvido');
+     xlabel('FFM(%) - HBF-514');
+     legend(' ponto experimental','curva ajustada','Location','southeast');
 end
+ hold off
+
 saveas(gcf,'correlacao_FFM_homens.png')
 
 
@@ -132,43 +130,42 @@ saveas(gcf,'correlacao_FFM_homens.png')
 x = size(HBF,1)-1;
 y = size(Equipamento_mulheres,1);
 
-figure(4)
+figure(4)  #figura 3 - grafico dispersao e reta de regressao equacoes mulheres
 temp = [1,5,6,9]; #numeros das equaçoes
 
 for idx=1:y
- p = polyfit( HBF(2,:) , Equipamento_mulheres(idx,:) , 1 ); #devolve os coeficientes do polinomio de 1 grau
+     p = polyfit( HBF(2,:) , Equipamento_mulheres(idx,:) , 1 ); #devolve os coeficientes do polinomio de 1 grau
 
-[R,P] = corrcoef (HBF(2,:) , Equipamento_mulheres(idx,:)); #coeficiente de pearson e pvalor
+    [R,P] = corrcoef (HBF(2,:) , Equipamento_mulheres(idx,:)); #coeficiente de pearson e pvalor
 
-printf(['R2 e p-valor Equação  ',num2str(temp(idx))])
-printf('\n')
-R2= R(2)^2
-p_valor = P(2)
+    printf(['R2 e p-valor Equação  ',num2str(temp(idx))])
+    printf('\n')
+    R2= R(2)^2
+    p_valor = P(2)
 
- xx = HBF(2,:); #vetor de x, dados das mulheres
- yy = Equipamento_mulheres(idx,:); #vetor de y
- yyy = polyval(p,xx); #vetor de y reta
+     xx = HBF(2,:); #vetor de x, dados das mulheres
+     yy = Equipamento_mulheres(idx,:); #vetor de y
+     yyy = polyval(p,xx); #vetor de y reta
 
- subplot(1,y,idx)
- plot( xx , yy , 'bo' ,'linewidth', 1.5)
- hold on;
- plot(xx,yyy, 'r', 'linewidth', 2)
+     subplot(1,y,idx)
+     plot( xx , yy , 'bo' ,'linewidth', 1.5)
+     hold on;
+     plot(xx,yyy, 'r', 'linewidth', 2)
 
- equacao = sprintf('y =%.2f x + %.2f',p(1),p(2));
- text(60,75,equacao) #posição do polinomio no gráfico
- R2 = sprintf('R² = %.2f',R2);
- text(61,74,R2) #posição do polinomio no gráfico
+     equacao = sprintf('y =%.2f x + %.2f',p(1),p(2));
+     text(60,75,equacao) #posição do polinomio no gráfico
+     R2 = sprintf('R² = %.2f',R2);
+     text(61,74,R2) #posição do polinomio no gráfico
 
- grid on
- title(['Relação entre HBF-514 e Equação  ',num2str(temp(idx))]);
- ylabel('FFM(%) - Equipamento desenvolvido');
- xlabel('FFM(%) - HBF-514');
- legend(' ponto experimental','curva ajustada','Location','southeast');
+     grid on
+     title(['Relação entre HBF-514 e Equação  ',num2str(temp(idx))]);
+     ylabel('FFM(%) - Equipamento desenvolvido');
+     xlabel('FFM(%) - HBF-514');
+     legend(' ponto experimental','curva ajustada','Location','southeast');
 
 
- hold off
 end
-
+ hold off
 
 saveas(gcf,'correlacao_FFM_mulheres.png')
 
