@@ -103,46 +103,45 @@ if d== 5
      subplot(x,2,idx)
      plot( xx_h , yy_h , 'bo' ,'linewidth', 1.5)
      hold on;     grid on;
-     plot(xx_h,yyy_h, 'r', 'linewidth', 2)
+    % plot(xx_h,yyy_h, 'r', 'linewidth', 2)
 
 
-     equacao = sprintf('y =%.2f x + %.2f',p_h(1),p_h(2));
-     text(0.5,0.5,equacao,"verticalalignment","bottom", ...
-                  "units", "normalized") #posição do polinomio no gráfico
-     R2_h = sprintf('R² = %.2f',R2_h);
-     text(0.5,0.5,R2_h,"verticalalignment","top", ...
-                  "units", "normalized")
+     %equacao = sprintf('y =%.2f x + %.2f',p_h(1),p_h(2));
+     %text(0.5,0.5,equacao,"verticalalignment","bottom", ...
+    %              "units", "normalized") #posição do polinomio no gráfico
+     %R2_h = sprintf('R² = %.2f',R2_h);
+     %text(0.5,0.5,R2_h,"verticalalignment","top", ...
+     %             "units", "normalized")
      hold off;
-       title('homem');
+     if idx ==1
+       title('homens');end
      ylabel(parametros(c));
      xlabel('Zc');
      %legend(' ponto experimental','curva ajustada','Location','southeast');
-
+     legend(' ponto experimental','Location','southeast');
 
      %%%%%%% mulheres
      subplot(x,2,idx+1)
      plot( xx_m , yy_m , 'bo' ,'linewidth', 1.5)
      hold on;     grid on;
-     plot(xx_m,yyy_m, 'r', 'linewidth', 2)
+     %plot(xx_m,yyy_m, 'r', 'linewidth', 2)
 
-     equacao = sprintf('y =%.2f x + %.2f',p_m(1),p_m(2));
-     text(0.5,0.5,equacao,"verticalalignment","bottom", ...
-                  "units", "normalized") #posição do polinomio no gráfico
-     R2_m = sprintf('R² = %.2f',R2_m);
-     text(0.5,0.5,R2_m,"verticalalignment","top", ...
-                  "units", "normalized")
+     %equacao = sprintf('y =%.2f x + %.2f',p_m(1),p_m(2));
+     %text(0.5,0.5,equacao,"verticalalignment","bottom", ...
+     %             "units", "normalized") #posição do polinomio no gráfico
+     %R2_m = sprintf('R² = %.2f',R2_m);
+     %text(0.5,0.5,R2_m,"verticalalignment","top", ...
+      %            "units", "normalized")
 
-     %equacao = sprintf('y =%.2f x + %.2f',p(1),p(2));
-     %text(65,80,equacao) #posição do polinomio no gráfico
-     %R2 = sprintf('R² = %.2f',R2);
-     %text(66,79,R2) #posição do polinomio no gráfico
      hold off;
 
      grid on
-     title('mulher');
+     if idx ==1
+     title('mulheres');end
      ylabel(parametros(c));
      xlabel('Zc');
      %legend(' ponto experimental','curva ajustada','Location','southeast');
+     legend(' ponto experimental','Location','southeast');
 
      c=c+1;
   d=d+1;
