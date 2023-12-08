@@ -100,7 +100,15 @@ Cadc            vadc    GND     8p
     hardcopy Condicionamento_sin_v1_erro_ADC.ps erro_ADC
     plot erro_total
     hardcopy Condicionamento_sin_v1_erro_total.ps erro_total
-
+    plot erro_buffer
+    hardcopy Condicionamento_sin_v1_erro_buffer.ps buffer
+    plot erro_OS
+    hardcopy Condicionamento_sin_v1_erro_OS.ps erro_OS
+    plot erro_FPB
+    hardcopy Condicionamento_sin_v1_erro_FPB.ps erro_FPB
+    erro_cond
+    hardcopy Condicionamento_sin_v1_erro_cond.ps erro_cond
+	
     * Mostra na tela frequencia de corte do filtro anti-aliasing
     let fcut={1/(2*pi*220*470p)}
     echo Frequencia de corte (anti-aliasing): $&fcut Hz
