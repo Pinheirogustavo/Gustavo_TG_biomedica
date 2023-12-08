@@ -1,0 +1,44 @@
+Circuito retificador de tensão
+
+*------------------------------------
+* CABEÇALHO
+*
+* Autor:        Olavo Luppi Silva
+* E-mail:       olavo.luppi@ufabc.edu.br
+* Data:         13/10/2022
+* Instituição:  UFABC - Programa de pós-graduação em engenharia biomédica
+* Licença:      Distribuido sob a licença GNU GPLv2  
+* Tipo circuto: Filtro ativo. 
+* Objetivo:     Mostrar como utilizar um modelo de amp-op real para fazer uma simulação AC do filtro
+* Fonte:        Baseado no tutorial produzido por  EEEngineering101, disponível em: https://youtu.be/ni-LKxu6lK8
+*------------------------------------
+
+
+*------------------------------------
+* DESCRIÇÃO DO CIRCUITO
+
+* Comando incluir o conteúdo do subcircuito definido no arquivo .MOD:
+.include LF356.MOD 
+V2      n_v2    0       ac      500m
+C1      n_v2    n_vc    10u
+R2      n_vc    n_2     1k
+R1      out     n_2     100k
+C2      out     n_2     100p
+V1      n_7     0       6
+V3      0       n_4     6
+X_U1    0       n_2     n_4     n_7     out     LF356/NS
+*------------------------------------
+
+
+*------------------------------------
+* PARÂMETROS DE SIMULAÇÃO
+.ac dec     100     1       1000G; Atenção: o sulfixo para Mega é 'Meg' e não 'M'
+
+*------------------------------------
+* PARÂMETROS DE OUTPUT
+.control
+run
+plot db(out) db(n_v2)
+.endc
+
+.end

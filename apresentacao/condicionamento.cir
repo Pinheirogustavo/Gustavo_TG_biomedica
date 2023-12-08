@@ -1,0 +1,73 @@
+Condicionamento de sinal
+
+*------------------------------------
+* CABEÇALHO
+*
+* Autor:        Erick Dario León Bueno de Camargo
+* E-mail:       erick.leon@ufabc.edu.br
+* Data:         03/11/2022
+* Instituição:  UFABC - Programa de pós-graduação em engenharia biomédica
+* Licença:      Distribuido sob a licença GNU GPLv2  
+* Tipo circuto: Circuito condicionamento de sinal. 
+* Objetivo:     Condicionar o sinal de entrada para um ADC do STM32F103
+*------------------------------------
+
+
+*------------------------------------
+* DESCRIÇÃO DO CIRCUITO
+
+
+* Comando incluir o conteúdo do subcircuito do AD826A:
+*                non-inverting input
+*                |  inverting input
+*                |  |  positive supply
+*                |  |  |  negative supply
+*                |  |  |  |  output
+*                |  |  |  |  |
+*.SUBCKT AD826A  2  1  99 50 46
+.include ad826a.cir
+
+*.model diode_model D
+*.include 1N4007.spice.txt
+.include 1N4148.cir
+
+
+* Parâmetros do modelo
+.param A=1.5 f=200k T={1/f} 
+
+VAC             vac	    GND	    sin(0 A f)
+VCC             vcc     GND     15V
+VEE             vee     GND     -15V
+VCC2            vcc2    GND     3.3V
+X_U1            vac     no1    vcc     vee     no1    AD826A
+C1              no1     no2     100n
+R1a             no2     vcc2    100k
+R1b             no2     GND     100k
+R2              no2     vout    330
+D1		        vout	vcc2	1N4148
+D2		        GND	    vout	    1N4148
+C2              vout    GND     500p    
+
+
+
+*------------------------------------
+* PARÂMETROS DE SIMULAÇÃO
+* Sintaxe: .tran [t_step] [t_stop] <t_start> <t_max> <uic>
+* t_step    = delta_t usado na visualização (comandos .plot e .print)
+* t_stop    = tempo final da simulação 
+* t_start   = tempo de início da simulação (argumento opcional, default = 0)
+* t_max     = delta_t usado nas contas da simulação
+* uic       = use initial conditions, isto é, utiliza o que foi informado no comando .ic
+
+.tran {T/100} {5*T}; o t_step é um centésimo do periodo e o t_stop são 5 períodos
+
+*------------------------------------
+* PARÂMETROS DE OUTPUT
+.control
+run
+plot vac vout
+.endc
+
+.end
+
+

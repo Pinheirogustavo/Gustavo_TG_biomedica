@@ -1,0 +1,61 @@
+Circuito retificador de tensão
+
+*------------------------------------
+* CABEÇALHO
+*
+* Autor:        Olavo Luppi Silva
+* E-mail:       olavo.luppi@ufabc.edu.br
+* Data:         13/10/2022
+* Instituição:  UFABC - Programa de pós-graduação em engenharia biomédica
+* Licença:      Distribuido sob a licença GNU GPLv2  
+* Tipo circuto: Circuio seguidor de tensão. 
+* Objetivo:     Mostrar como utilizar um modelo de amp-op real para fazer uma simulação transiente
+* Fonte:        Baseado no tutorial produzido por  EEEngineering101, disponível em: https://youtu.be/ni-LKxu6lK8
+*------------------------------------
+
+
+*------------------------------------
+* DESCRIÇÃO DO CIRCUITO
+
+* Comando incluir o conteúdo do subcircuito definido no arquivo .MOD:
+.include LF356.MOD 
+* Parâmetros do modelo
+.param A=15 f=110k T={1/f} 
+
+* Sintaxe: sin([offset] [Amp] [freq] <delay> <theta> <phase>)
+* [offset]      = tensão de offset
+* [Amp]         = tensão de pico (amplitude da senóide)
+* [freq]        = frequência da senóide
+* <delay>       = tempo em que a fonte estará desligada antes de começar a funcionar
+* <theta>       = taxa de amortecimento da função exponencial envoltória
+* <phase>       = fase da senóide
+VAC             vac	GND	sin(0 A f)
+VCC             vcc     GND     15V
+VEE             vee     GND     -15V
+R1              vout    GND     1k
+X_U1            vac     vout    vcc     vee     vout    LF356/NS
+
+*------------------------------------
+
+
+
+*------------------------------------
+* PARÂMETROS DE SIMULAÇÃO
+* Sintaxe: .tran [t_step] [t_stop] <t_start> <t_max> <uic>
+* t_step    = delta_t usado na visualização (comandos .plot e .print)
+* t_stop    = tempo final da simulação 
+* t_start   = tempo de início da simulação (argumento opcional, default = 0)
+* t_max     = delta_t usado nas contas da simulação
+* uic       = use initial conditions, isto é, utiliza o que foi informado no comando .ic
+
+.tran {T/100} {5*T}; o t_step é um centésimo do periodo e o t_stop são 5 períodos
+
+
+*------------------------------------
+* PARÂMETROS DE OUTPUT
+.control
+run
+plot vac vout
+.endc
+
+.end

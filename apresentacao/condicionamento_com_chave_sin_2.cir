@@ -1,0 +1,92 @@
+Condicionamento de sinal
+
+*------------------------------------
+* CABEÇALHO
+*
+* Autor:        Erick Dario León Bueno de Camargo
+* E-mail:       erick.leon@ufabc.edu.br
+* Data:         07/11/2022
+* Instituição:  UFABC - Programa de pós-graduação em engenharia biomédica
+* Licença:      Distribuido sob a licença GNU GPLv2  
+* Tipo circuto: Circuito condicionamento de sinal. 
+* Objetivo:     Condicionar o sinal de entrada para um ADC do STM32F103
+*------------------------------------
+
+*------------------------------------
+* DESCRIÇÃO DOS MODELOS UTILIZADOS
+
+* Comando incluir o conteúdo do subcircuito do AD826A:
+*                non-inverting input
+*                |  inverting input
+*                |  |  positive supply
+*                |  |  |  negative supply
+*                |  |  |  |  output
+*                |  |  |  |  |
+*.SUBCKT AD826A  2  1  99 50 46
+.include ad826a.cir
+
+*.model diode_model D
+.include 1N4148.cir;           DIODO DE PEQUENOS SINAIS
+
+* modelo da chave: vt=threshold voltave; vh=hysteresis voltage; ron=on resistance; roff=off resistance
+.model switch1 sw vt=1 ; apenas parametros obrigatorios
+
+* modelo de capacitor com condicao inicial, considerando um offset inicial de 1,65V
+* necessario quando a tensao do sinal de teste (vin) tem media diferente do valor inicial
+* ic é a condicao inicial (tensao inicial no capacitor)
+.model cap capacitoric (c=1u ic=1.65)
+
+*------------------------------------
+* DESCRIÇÃO DO CIRCUITO
+
+* Parâmetros do sinal de entrada
+.param A=0.325 f=50k T={1/f}
+* Parâmetros da amostragem
+.param fsampl=600k Tsampl={1/fsampl} V1s=0 V2s=2 TDs=0 TRs=0 TFs=0 PWs={0.625us} PERs={Tsampl} PHASEs=0 ; 0,625us é o t_sampl do ADC em 600kHz
+.param dur=0.05us ; duracao do cálculo do erro, ao final de t_sampl
+
+*VAC             vin	    GND	    PULSE ( V1  V2 TD       TR TF PW     PER     PHASE )
+VAC             vin	    GND     AC   1V  DC 1V
+*VS              vs      GND	    PULSE ( V1s V2s TDs       TRs TFs  PWs PERs PHASEs )
+*VSd             vsd     GND	    PULSE ( 0   1   {PWs-dur} TRs TFs  dur PERs PHASEs )
+*Switch1         vacdin  vout    vs      GND    switch1    OFF
+VCC             vcc     GND     9V
+VEE             vee     GND     -9V
+VCC2            vcc2    GND     3.3V
+X_U1            vin     no1     vcc     vee     no1    AD826A
+a1              no2     no1     cap; Capacitor C1 com condicao inicial (ver modelo acima)
+R1a             no2     vcc2    100k
+R1b             no2     GND     100k
+R2              no2     vout    220
+C2              vout    GND     470p    
+D1		        vout	vcc2	1N4148
+D2		        GND	    vout	1N4148
+Radc            vacdin  vadc    1k
+Cadc            vadc    GND     8p
+
+*------------------------------------
+* PARÂMETROS DE SIMULAÇÃO
+* Sintaxe: .tran [t_step] [t_stop] <t_start> <t_max> <uic>
+* t_step    = delta_t usado na visualização (comandos .plot e .print)
+* t_stop    = tempo final da simulação 
+* t_start   = tempo de início da simulação (argumento opcional, default = 0)
+* t_max     = delta_t usado nas contas da simulação
+* uic       = use initial conditions, isto é, utiliza o que foi informado no comando .ic
+*.tran {T/10000} {1.5*T}; simulacao transiente, 10000 passos por periodo, por 1,5 periodo
+.ac dec 100 1Hz 100kHz;
+*------------------------------------
+* PARÂMETROS DE OUTPUT
+.control
+    run
+    * Ajustes dos plots e saídas
+    set xbrushwidth=4; ; espessura das linhas
+    set hcopypscolor=1 ; para deixar arquivo .ps colorido
+
+    * Plota uma visao geral do que esta acontecendo
+    plot db(vin), db(vout), db(vadc)
+    *hardcopy Condicionamento_sin_v1.ps  vin, vout, vs, vadc ylimit -2 3.3
+
+
+.endc
+
+.end
