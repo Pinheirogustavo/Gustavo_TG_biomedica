@@ -1,4 +1,4 @@
-x = logspace(-2,2);
+x = logspace(-2,1);
 y = (0.5/(10**-6)) ./ (2*pi*x); #slew rate 0,5 u/V OP07C
 y2 = (350/(10**-6)) ./ (2*pi*x); #slew rate 350 u/V AD826
 y1 = (16/(10**-6)) ./ (2*pi*x); #slew rate 13 u/V TL072C
